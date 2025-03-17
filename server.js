@@ -21,23 +21,23 @@ app.use(cookieParser());
 
 
 io.on("connection", (socket) => {
-  console.log("User connected");
+  console.log("socket  connected");
 
   socket.on("sendMessage", async (data) => {
     const { receiver, message } = data;
     console.log(message);
+
+    // const query = "INSERT INTO messages (id, sender_email, receiver_email, message, timestamp) VALUES (uuid(), ?, ?, ?, toTimestamp(now()))";
     
-    const query = "INSERT INTO messages (id, sender_email, receiver_email, message, timestamp) VALUES (uuid(), ?, ?, ?, toTimestamp(now()))";
-    
-    await cassandraClient.execute(query, [socket.user.email, receiver, message]);
-    io.emit("newMessage", { sender: socket.user.email, receiver, message });
+    // await cassandraClient.execute(query, [socket.user.email, receiver, message]);
+    // io.emit("newMessage", { sender: socket.user.email, receiver, message });
   });
 
   socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.user.email}`);
+    console.log(`user diconnected`);
   });
 });
 
 server.listen(process.env.PORT || 3000, () => {
-  console.log(`🚀 Chat server running on port ${process.env.PORT || 3000}`);
+  console.log(`Chat server running on port ${process.env.PORT || 3000}`);
 });
